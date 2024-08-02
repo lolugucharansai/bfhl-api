@@ -12,9 +12,12 @@ const USER_ID = 'john_doe_17091999';
 const EMAIL = 'john@xyz.com';
 const ROLL_NUMBER = 'ABCD123';
 
-// Root endpoint
-app.get('/', (req, res) => {
-    res.send('Welcome to the BFHL API');
+// Middleware to redirect root requests to /bfhl
+app.use((req, res, next) => {
+    if (req.path === '/') {
+        return res.redirect('/bfhl');
+    }
+    next();
 });
 
 // POST endpoint
