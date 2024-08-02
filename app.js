@@ -8,23 +8,25 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-
+// Your personal details (replace with your own)
 const USER_ID = 'john_doe_17091999';
 const EMAIL = 'john@xyz.com';
 const ROLL_NUMBER = 'ABCD123';
 
-
+// POST endpoint
 app.post('/bfhl', (req, res) => {
     try {
         const { data } = req.body;
 
         if (!Array.isArray(data)) {
-            return res.status(400).json({ error: 'Invalid input: data must be an array' });
+            return res.status(400).json({ is_success: false, error: 'Invalid input: data must be an array' });
         }
 
-        const numbers = data.filter(item => !isNaN(item));
+        const numbers = data.filter(item => !isNaN(item) && item !== '');
         const alphabets = data.filter(item => isNaN(item) && item.length === 1);
-        const highestAlphabet = alphabets.length > 0 ? [alphabets.reduce((a, b) => a.toLowerCase() > b.toLowerCase() ? a : b)] : [];
+        const highestAlphabet = alphabets.length > 0 ? 
+            [alphabets.reduce((a, b) => a.toLowerCase() > b.toLowerCase() ? a : b)] : 
+            [];
 
         res.json({
             is_success: true,
@@ -36,12 +38,13 @@ app.post('/bfhl', (req, res) => {
             highest_alphabet: highestAlphabet
         });
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ is_success: false, error: 'Internal server error' });
     }
 });
 
+// GET endpoint
 app.get('/bfhl', (req, res) => {
-    res.json({ operation_code: 1 });
+    res.status(200).json({ operation_code: 1 });
 });
 
 app.listen(PORT, () => {
