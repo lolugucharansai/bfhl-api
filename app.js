@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Your personal details (replace with your own)
 const USER_ID = 'john_doe_17091999';
 const EMAIL = 'john@xyz.com';
 const ROLL_NUMBER = 'ABCD123';
